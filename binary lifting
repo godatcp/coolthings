@@ -1,0 +1,28 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+#define maxn 200000
+int N,Q;
+int up[maxn][18];
+int jmp(int x,int d){
+    for(int i = 0;i < 18;i++){
+        if((d >> i)&1){x = up[i][x];}
+    }
+    return x?:-1;
+}
+int main(){
+    cin >> N >> Q;
+    for(int i = 2;i <= N;i++){
+        int a; cin >> a;
+        up[0][i] = a;
+    }
+    for(int i = 1;i < N+1;i++){
+        for(int j = 1;j < 18;j++){
+            up[j][i] = up[j-1][up[j-1][i]];
+        }
+    }
+    while(Q--){
+        int a,b; cin >> a >> b;
+        cout << jmp(a,b) << endl;
+    }
+}
